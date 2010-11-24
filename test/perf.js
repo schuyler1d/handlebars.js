@@ -85,4 +85,23 @@ var test1 = function() {
 var test2 = function() {
   Mustache.to_html(tmpl, data, partials);
 }
-perfCompare("Mustache Compatibility", [["Handlebars", test1], ["Mustache", test2]]);
+var test3 = function() {
+  SkyMustache.to_html(tmpl, data, partials);
+}
+SkyMustache.template('personPet',partials.personPet);
+var sky_template = SkyMustache.template('test',tmpl)
+
+var test4 = function() {
+    sky_template.render(data);
+}
+var handlebars_template = Handlebars.compile(tmpl);
+var test5 = function() {
+  handlebars_template(data, {partials: partials});
+}
+
+perfCompare("Mustache Compatibility", [["Handlebars", test1], 
+				       ["Mustache", test2],
+				       ["SkyMustache", test3],
+				       ["SkyMustache (precompiled)", test4],
+				       ["Handlebars (precompiled)", test5],
+				      ]);
